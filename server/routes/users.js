@@ -1,1 +1,1 @@
-// Get user where email and passord match
+// Get user where email and password match

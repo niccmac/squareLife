@@ -1,5 +1,4 @@
 // ENV vars
-
 require("dotenv").config(); // Environment variable config
 module.exports = {
   port: parseInt(process.env.PORT),

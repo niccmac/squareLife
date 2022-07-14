@@ -4,9 +4,10 @@ const express = require("express");
 const cookieSession = require("cookie-session");
 const helmet = require("helmet"); // Secures HTTP by setting various HTTP headers
 const bcrypt = require("bcryptjs");
-const { Sequelize } = require("sequelize"); // ORM
+
 const bodyParser = require("body-parser");
 const config = require("./config/configuration");
+const dbInit = require("something");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,7 +18,7 @@ app.use(
     name: "session",
     keys: ["password", "cookie", "squarelife", "anotherkey"],
 
-    // Cookie Options
+    // Cookie Opti
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
@@ -25,12 +26,6 @@ app.use(morgan("dev"));
 
 // Password encryption
 const salt = bcrypt.genSaltSync(10);
-
-// DB Set up
-
-const sequelize = new Sequelize(
-  `postgres://${config.dbuser}:${config.dbpassword}@${config.dbhost}:${config.dbport}/${config.dbname}`
-);
 
 // Routes
 // const users = require("./routes/users");

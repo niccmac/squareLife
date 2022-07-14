@@ -8,3 +8,5 @@ module.exports = {
   dbhost: process.env.DB_HOST,
   dbpassword: process.env.DB_PASSWORD,
 };
+
+// TODO: resolve with other configurations (config.json)

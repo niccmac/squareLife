@@ -8,15 +8,21 @@ const env = process.env.NODE_ENV || "development";
 const config = require("../config/configuration");
 const db = {};
 
+const sqConfig = {
+  // TODO: fix clash between .env and config/config.json
+  host: "localhost",
+  dialect: "postgres",
+};
+
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
   sequelize = new Sequelize(
-    config.database,
+    "square_life", // TODO: database name fetch from configs
     config.username,
     config.password,
-    config
+    sqConfig
   );
 }
 

@@ -8,6 +8,7 @@ module.exports = (db) => {
   // Retrieve information
   router.get("/:id", (req, res) => {
     const { id } = req.params;
+    console.log(id);
     db.Users.findOne({
       where: {
         id: id,
@@ -30,8 +31,8 @@ module.exports = (db) => {
       },
     })
       .then((userData) => {
-        userData.update({ photo_url: photo });
         console.log(userData);
+        userData.update({ photo_url: photo });
         return userData;
       })
       .then((userData) => {

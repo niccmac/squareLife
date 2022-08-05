@@ -21,36 +21,55 @@ module.exports = (db) => {
 
   // Update information
   router.put("/:id/photo", (req, res) => {
-    const { photo } = req.body;
-
+    const { photo, username, email, password } = req.body;
     const { id } = req.params;
 
-    db.Users.findOne({
-      where: {
-        id: id,
-      },
-    })
-      .then((userData) => {
-        console.log(userData);
-        userData.update({ photo_url: photo });
-        return userData;
-      })
-      .then((userData) => {
-        userData.save();
-        res.send(`Square Life ◼️ photo saved`);
-      });
-  });
+    if (photo) {
+      db.Users.update(
+        { photo_url: photo },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+    }
 
-  //   .then((userData) => {
-  //     console.log(userData);
-  //     userData.photo_url = photo;
-  //     console.log(userData);
-  //     userData.save({ fields: ["photo_url"] });
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.send(`${err}`);
-  //   });
+    if (username) {
+      db.Users.update(
+        { username: username },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+    }
+
+    if (email) {
+      db.Users.update(
+        { email: email },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+    }
+
+    if (password) {
+      db.Users.update(
+        { password: password },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+    }
+
+    res.send(`Square Life ◼️ photo saved`);
+  });
 
   // Creates new information
   router.post("/", (req, res) => {

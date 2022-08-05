@@ -5,9 +5,16 @@ const router = express.Router();
 
 module.exports = (db) => {
   // Retrieve information
-  router.get("/", (req, res) => {
-    db.Users.get();
-    res.send("Square Life ◼️ users...");
+  router.get("/:id", (req, res) => {
+    const { id } = req.params;
+    db.Users.findOne({
+      where: {
+        id: id,
+      },
+    }).then((userData) => {
+      const name = userData.username;
+      res.send(`Square Life ◼️ users...${name}`);
+    });
   });
   // Update information
   router.put("/", (req, res) => {
@@ -22,12 +29,12 @@ module.exports = (db) => {
     res.send("Square Life ◼️ users...");
   });
 
-  db.Users.create({
-    email: "nicole.mac0404@gmail.com",
-    username: "Nicole",
-    password: "123",
-  }).then(() => {
-    console.log("saved");
-  });
+  // db.Users.create({
+  //   email: "nicole.mac0404@gmail.com",
+  //   username: "Nicole",
+  //   password: "123",
+  // }).then(() => {
+  //   console.log("saved");
+  // });
   return router;
 };

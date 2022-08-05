@@ -19,6 +19,7 @@ const db = require("./models/index");
 // });
 
 const app = express();
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.use(helmet());
@@ -34,20 +35,20 @@ app.use(
 app.use(morgan("dev"));
 
 // // Password encryption
-// const salt = bcrypt.genSaltSync(10);
+const salt = bcrypt.genSaltSync(10);
 
 // // Routes
 const users = require("./routes/users");
 const tasks = require("./routes/tasks");
 const squares = require("./routes/squares");
-// // const loginRoute = require("./routes/login");
+const loginRoute = require("./routes/login");
 // // const logoutRoute = require("./routes/logout");
 
 // // Mount all resource routes
-app.use("/tasks", tasks(db));
-app.use("/users", users(db));
-app.use("/squares", squares(db));
-// // app.use("/login", loginRoute(db));
+app.use("/api/tasks", tasks(db));
+app.use("/api/users", users(db));
+app.use("/api/squares", squares(db));
+app.use("/api/login", loginRoute(db));
 // // app.use("/logout", logoutRoute(db));
 
 app.get("/", (req, res) => {

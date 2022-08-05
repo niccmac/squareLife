@@ -1,7 +1,6 @@
 // Get user where email and password match
 
 const express = require("express");
-const Sequelize = require("sequelize");
 const router = express.Router();
 
 module.exports = (db) => {
@@ -10,7 +9,8 @@ module.exports = (db) => {
     const { id } = req.params;
     db.Users.findOne({
       where: {
-        id: id,
+        // email: ,
+        // password: ,
       },
     }).then((userData) => {
       const name = userData.username;
@@ -23,31 +23,19 @@ module.exports = (db) => {
   });
   // Creates new information
   router.post("/", (req, res) => {
-    const { email, username, password } = req.body;
-
-    // Create user
-    db.Users.create({
-      email: email,
-      username: username,
-      password: password,
-    })
-      .then((data) => {
-        console.log("saved");
-        res.send(data);
-      })
-      .catch((err) => {
-        if (err.name === "SequelizeUniqueConstraintError") {
-          res.send("User already exists", 400);
-        } else {
-          console.log(err);
-          res.send(`${err}`);
-        }
-      });
+    res.send("Square Life ◼️ users...");
   });
   // Delete information
   router.delete("/", (req, res) => {
     res.send("Square Life ◼️ users...");
   });
 
+  // db.Users.create({
+  //   email: "nicole.mac0404@gmail.com",
+  //   username: "Nicole",
+  //   password: "123",
+  // }).then(() => {
+  //   console.log("saved");
+  // });
   return router;
 };

@@ -17,15 +17,45 @@ module.exports = (db) => {
       res.send(`Square Life ◼️ users...${name}`);
     });
   });
+
   // Update information
-  router.put("/", (req, res) => {
-    res.send("Square Life ◼️ users...");
+  router.put("/:id/photo", (req, res) => {
+    const { photo } = req.body;
+
+    const { id } = req.params;
+
+    db.Users.findOne({
+      where: {
+        id: id,
+      },
+    })
+      .then((userData) => {
+        userData.update({ photo_url: photo });
+        console.log(userData);
+        return userData;
+      })
+      .then((userData) => {
+        userData.save();
+        res.send(`Square Life ◼️ photo saved`);
+      });
   });
+
+  //   .then((userData) => {
+  //     console.log(userData);
+  //     userData.photo_url = photo;
+  //     console.log(userData);
+  //     userData.save({ fields: ["photo_url"] });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.send(`${err}`);
+  //   });
+
   // Creates new information
   router.post("/", (req, res) => {
     const { email, username, password } = req.body;
 
-    // Create user
+    //Register New User
     db.Users.create({
       email: email,
       username: username,
@@ -44,6 +74,7 @@ module.exports = (db) => {
         }
       });
   });
+
   // Delete information
   router.delete("/", (req, res) => {
     res.send("Square Life ◼️ users...");

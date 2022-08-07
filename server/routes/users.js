@@ -5,7 +5,7 @@ const Sequelize = require("sequelize");
 const router = express.Router();
 
 module.exports = (db) => {
-  // Retrieve information
+  // Retrieve information about user
   router.get("/:id", (req, res) => {
     const { id } = req.params;
     console.log(id);
@@ -19,11 +19,10 @@ module.exports = (db) => {
     });
   });
 
-  // Update information
-  router.put("/:id/photo", (req, res) => {
+  // Update information about user
+  router.put("/:id", (req, res) => {
     const { photo, username, email, password } = req.body;
     const { id } = req.params;
-
     if (photo) {
       db.Users.update(
         { photo_url: photo },
@@ -34,7 +33,6 @@ module.exports = (db) => {
         }
       );
     }
-
     if (username) {
       db.Users.update(
         { username: username },
@@ -45,7 +43,6 @@ module.exports = (db) => {
         }
       );
     }
-
     if (email) {
       db.Users.update(
         { email: email },
@@ -56,7 +53,6 @@ module.exports = (db) => {
         }
       );
     }
-
     if (password) {
       db.Users.update(
         { password: password },
@@ -67,7 +63,6 @@ module.exports = (db) => {
         }
       );
     }
-
     res.send(`Square Life ◼️ photo saved`);
   });
 
@@ -95,10 +90,10 @@ module.exports = (db) => {
       });
   });
 
-  // Delete information
-  router.delete("/", (req, res) => {
-    res.send("Square Life ◼️ users...");
-  });
+  // // Delete information
+  // router.delete("/", (req, res) => {
+  //   res.send("Square Life ◼️ users...");
+  // });
 
   return router;
 };

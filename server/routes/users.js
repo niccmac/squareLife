@@ -5,11 +5,11 @@ const Sequelize = require("sequelize");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
 
-module.exports = (db, salt, hash) => {
+module.exports = (db, salt) => {
   // Retrieve information about user
   router.get("/:id", (req, res) => {
     const { id } = req.params;
-    console.log(id);
+
     db.Users.findOne({
       where: {
         id: id,

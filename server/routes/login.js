@@ -14,32 +14,18 @@ module.exports = (db, salt, hash) => {
       },
     }).then((userData) => {
       const userPassword = userData.password;
+      const userId = userData.id;
+      const userPhoto = userData.photo_url;
       if (bcrypt.compareSync(password, userPassword)) {
+        req.session.userId = userId;
+        req.session.photo = userPhoto;
+
         res.send(`Square Life ◼️ loggedin`);
       } else {
         res.send(`Square Life ◼️ login fail`);
       }
     });
   });
-  // Update information
-  router.put("/", (req, res) => {
-    res.send("Square Life ◼️ users...");
-  });
-  // Creates new information
-  router.post("/", (req, res) => {
-    res.send("Square Life ◼️ users...");
-  });
-  // Delete information
-  router.delete("/", (req, res) => {
-    res.send("Square Life ◼️ users...");
-  });
 
-  // db.Users.create({
-  //   email: "nicole.mac0404@gmail.com",
-  //   username: "Nicole",
-  //   password: "123",
-  // }).then(() => {
-  //   console.log("saved");
-  // });
   return router;
 };

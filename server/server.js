@@ -56,10 +56,6 @@ app.get("/", (req, res) => {
   res.send("Square Life ◼️");
 });
 
-// app.get("/user", (req, res) => {
-//   res.send("Square Life ◼️ users...");
-// });
-
 app.listen(config.port, () => {
   console.log(`Example app listening on port ${config.port}`);
 });

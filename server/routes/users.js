@@ -7,9 +7,11 @@ const router = express.Router();
 
 module.exports = (db, salt) => {
   // Retrieve information about user
-  router.get("/:id", (req, res) => {
-    const { id } = req.params;
-
+  router.get("/", (req, res) => {
+    const { id } = req.session.userId;
+    if (!id) {
+      res.send("Login to get details");
+    }
     db.Users.findOne({
       where: {
         id: id,
@@ -21,9 +23,12 @@ module.exports = (db, salt) => {
   });
 
   // Update information about user
-  router.put("/:id", (req, res) => {
+  router.put("/", (req, res) => {
     const { photo, username, email, password } = req.body;
-    const { id } = req.params;
+    const { id } = req.session.userId;
+    if (!id) {
+      res.send("Login to get details");
+    }
     if (photo) {
       db.Users.update(
         { photo_url: photo },
@@ -79,6 +84,7 @@ module.exports = (db, salt) => {
     })
       .then((data) => {
         console.log("saved");
+        req.session.userId = data.id;
         res.send(data);
       })
       .catch((err) => {
@@ -92,14 +98,20 @@ module.exports = (db, salt) => {
   });
 
   // Delete information
-  router.delete("/:id", (req, res) => {
-    let { id } = req.params;
+  router.delete("/", (req, res) => {
+    const { id } = req.session.userId;
+    if (!id) {
+      res.send("Login to get details");
+    }
     db.Users.destroy({
       where: {
         id: id,
       },
+    }).then(() => {
+      req.session.userId = null;
+      req.session.photo = null;
+      res.send("Square Life deleted");
     });
-    res.send("Square Life deleted");
   });
 
   return router;

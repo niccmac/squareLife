@@ -90,10 +90,16 @@ module.exports = (db) => {
       });
   });
 
-  // // Delete information
-  // router.delete("/", (req, res) => {
-  //   res.send("Square Life ◼️ users...");
-  // });
+  // Delete information
+  router.delete("/:id", (req, res) => {
+    let { id } = req.params;
+    db.Users.destroy({
+      where: {
+        id: id,
+      },
+    });
+    res.send("Square Life deleted");
+  });
 
   return router;
 };

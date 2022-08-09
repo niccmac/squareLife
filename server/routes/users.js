@@ -2,9 +2,10 @@
 
 const express = require("express");
 const Sequelize = require("sequelize");
+const bcrypt = require("bcryptjs");
 const router = express.Router();
 
-module.exports = (db) => {
+module.exports = (db, salt, hash) => {
   // Retrieve information about user
   router.get("/:id", (req, res) => {
     const { id } = req.params;
@@ -74,7 +75,7 @@ module.exports = (db) => {
     db.Users.create({
       email: email,
       username: username,
-      password: password,
+      password: bcrypt.hashSync(password, salt),
     })
       .then((data) => {
         console.log("saved");
@@ -84,7 +85,7 @@ module.exports = (db) => {
         if (err.name === "SequelizeUniqueConstraintError") {
           res.send("User already exists", 400);
         } else {
-          console.log(err);
+          console.log("failed here...", err);
           res.send(`${err}`);
         }
       });

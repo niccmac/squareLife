@@ -36,6 +36,7 @@ app.use(morgan("dev"));
 
 // // Password encryption
 const salt = bcrypt.genSaltSync(10);
+const hash = bcrypt.hashSync("B4c0//", salt);
 
 // // Routes
 const users = require("./routes/users");
@@ -46,7 +47,7 @@ const loginRoute = require("./routes/login");
 
 // // Mount all resource routes
 app.use("/api/tasks", tasks(db));
-app.use("/api/users", users(db));
+app.use("/api/users", users(db, salt, hash));
 app.use("/api/squares", squares(db));
 app.use("/api/login", loginRoute(db));
 // // app.use("/logout", logoutRoute(db));

@@ -8,6 +8,7 @@ module.exports = () => {
   router.get("/", (req, res) => {
     req.session.userId = null;
     req.session.photo = null;
+    res.send("Logout complete");
   });
 
   return router;

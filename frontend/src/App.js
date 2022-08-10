@@ -1,18 +1,37 @@
-import * as React from "react";
+import { useState } from "react";
+import { ThemeProvider } from "styled-components";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./components/login";
+import ThemeToggle from "./components/themeToggle";
+
+const LightTheme = {
+  pageBackground: "white",
+  titleColor: "green",
+  tagLineColor: "black"
+};
+
+const DarkTheme = {
+  pageBackground: "black",
+  titleColor: "red",
+  tagLineColor: "white"
+};
+const themes = {
+  light: LightTheme,
+  dark: DarkTheme
+};
 
 function App() {
+  const [theme, setTheme] = useState("light");
   return (
-    <div className="App">
-      <header className="App-header">
+    <ThemeProvider theme={themes[theme]}>
+      <ThemeToggle setTheme={setTheme} theme={theme} />
+      <div className="App">
         <Routes>
           <Route path="/login" element={<Login />} />
-          {/* <Route path="about" element={<About />} /> */}
         </Routes>
-      </header>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 }
 

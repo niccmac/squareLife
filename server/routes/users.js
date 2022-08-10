@@ -8,24 +8,28 @@ const router = express.Router();
 module.exports = (db, salt) => {
   // Retrieve information about user
   router.get("/", (req, res) => {
-    const { id } = req.session.userId;
+    const id = req.session.userId;
     if (!id) {
-      res.send("Login to get details");
+      res.send(`Login to get details ${id}`);
     }
     db.Users.findOne({
       where: {
-        id: id,
-      },
-    }).then((userData) => {
-      const name = userData.username;
-      res.send(`Square Life ◼️ users...${name}`);
-    });
+        id: id
+      }
+    })
+      .then((userData) => {
+        const name = userData.username;
+        res.send(`Square Life ◼️ users...${name}`);
+      })
+      .catch((err) => {
+        console.log("failed to get", err);
+      });
   });
 
   // Update information about user
   router.put("/", (req, res) => {
     const { photo, username, email, password } = req.body;
-    const { id } = req.session.userId;
+    const id = req.session.userId;
     if (!id) {
       res.send("Login to get details");
     }
@@ -34,8 +38,8 @@ module.exports = (db, salt) => {
         { photo_url: photo },
         {
           where: {
-            id: id,
-          },
+            id: id
+          }
         }
       );
     }
@@ -44,8 +48,8 @@ module.exports = (db, salt) => {
         { username: username },
         {
           where: {
-            id: id,
-          },
+            id: id
+          }
         }
       );
     }
@@ -54,8 +58,8 @@ module.exports = (db, salt) => {
         { email: email },
         {
           where: {
-            id: id,
-          },
+            id: id
+          }
         }
       );
     }
@@ -64,8 +68,8 @@ module.exports = (db, salt) => {
         { password: password },
         {
           where: {
-            id: id,
-          },
+            id: id
+          }
         }
       );
     }
@@ -80,7 +84,7 @@ module.exports = (db, salt) => {
     db.Users.create({
       email: email,
       username: username,
-      password: bcrypt.hashSync(password, salt),
+      password: bcrypt.hashSync(password, salt)
     })
       .then((data) => {
         console.log("saved");
@@ -99,14 +103,14 @@ module.exports = (db, salt) => {
 
   // Delete information
   router.delete("/", (req, res) => {
-    const { id } = req.session.userId;
+    const id = req.session.userId;
     if (!id) {
       res.send("Login to get details");
     }
     db.Users.destroy({
       where: {
-        id: id,
-      },
+        id: id
+      }
     }).then(() => {
       req.session.userId = null;
       req.session.photo = null;

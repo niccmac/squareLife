@@ -10,7 +10,7 @@ module.exports = (db) => {
         user_id: id,
       },
     }).then((tasks) => {
-      res.send(`Tasks for user...${tasks}`);
+      res.send(`${tasks}`);
     });
   });
 
@@ -27,13 +27,15 @@ module.exports = (db) => {
       active: true,
     };
     console.log(userInfo);
-    db.Tasks.create({ userInfo })
-      .then((task) => {
-        res.send(`Task created ${task.taskName}`);
-      })
-      .catch((err) => {
-        res.send(`DB error ${err}`);
-      });
+    if (userInfo.user_id) {
+      db.Tasks.create({ userInfo })
+        .then((task) => {
+          res.send(`Task created ${task.taskName}`);
+        })
+        .catch((err) => {
+          res.send(`DB error ${err}`);
+        });
+    }
   });
   return router;
 };

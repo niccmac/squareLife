@@ -15,17 +15,25 @@ module.exports = (db) => {
   });
 
   router.post("/", (req, res) => {
-    const id = req.session.userId;
+    console.log(req.session.userId);
     const { taskName, taskColour, taskUnit, taskHigh, taskLow } = req.body;
-    db.Tasks.create({
+    const userInfo = {
+      user_id: req.session.userId,
       taskName: taskName,
       taskColour: taskColour,
       taskUnit: taskUnit,
       taskHigh: taskHigh,
       taskLow: taskLow,
-    }).then((task) => {
-      res.send(`Task created ${task.taskName}`);
-    });
+      active: true,
+    };
+    console.log(userInfo);
+    db.Tasks.create({ userInfo })
+      .then((task) => {
+        res.send(`Task created ${task.taskName}`);
+      })
+      .catch((err) => {
+        res.send(`DB error ${err}`);
+      });
   });
   return router;
 };

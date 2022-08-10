@@ -28,7 +28,7 @@ function App() {
       <ThemeToggle setTheme={setTheme} theme={theme} />
       <div className="App">
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login color={themes[theme]} />} />
         </Routes>
       </div>
     </ThemeProvider>

@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       photo_url: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

@@ -38,6 +38,7 @@ module.exports = (db) => {
     // }
     console.log(req.session.userId);
     const { taskName, taskColour, taskUnit, taskHigh, taskLow } = req.body;
+    console.log(req.session.userId);
     db.Tasks.create({
       user_id: req.session.userId,
       taskName: taskName,

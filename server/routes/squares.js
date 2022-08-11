@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 
-module.exports = (db, salt) => {
+module.exports = (db) => {
   // Retrieve squares for user
   router.get("/", (req, res) => {
     const id = req.session.userId;
@@ -13,13 +13,13 @@ module.exports = (db, salt) => {
       where: {
         id: id
       }
-    }).then((userData) => {
-      const squares = userData.username;
+    }).then((squares) => {
+      console.log(squares);
       res.send(`Square Life ◼️ squares...${squares}`);
     });
   });
 
-  // Update information about user
+  // Update squares
   router.put("/", (req, res) => {
     const { photo, username, email, password } = req.body;
     const id = req.session.userId;
@@ -69,11 +69,16 @@ module.exports = (db, salt) => {
     res.send(`Square Life ◼️ photo saved`);
   });
 
-  // Creates new information
+  // Creates new square
   router.post("/", (req, res) => {
+    const { id } = req.session.userId;
+    if (!id) {
+      res.send("Login to get details");
+    }
+
     const { task_id, value, date } = req.body;
 
-    //Register New User
+    //Add new square
     db.Squares.create({
       task_id: task_id,
       value: value,
@@ -84,12 +89,8 @@ module.exports = (db, salt) => {
         res.send(data);
       })
       .catch((err) => {
-        if (err.name === "SequelizeUniqueConstraintError") {
-          res.send("User already exists", 400);
-        } else {
-          console.log("failed here...", err);
-          res.send(`${err}`);
-        }
+        console.log("failed here...", err);
+        res.send(`${err}`);
       });
   });
 
